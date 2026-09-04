@@ -1,0 +1,5 @@
+module Interop {
+	header "Interop.hpp"
+
+	export *
+}
