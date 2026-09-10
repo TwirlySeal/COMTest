@@ -4,7 +4,7 @@ import PackageDescription
 
 let bridgingHeaderFlags = [
     "-I",
-    #"C:\Users\ethan\AppData\Local\Programs\Swift\Toolchains\6.3.0+Asserts\usr\include"#
+    #"C:\Users\ethan\AppData\Local\Programs\Swift\Toolchains\6.3.3+Asserts\usr\include"#
 ]
 
 let package = Package(
