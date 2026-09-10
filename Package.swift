@@ -2,11 +2,9 @@
 
 import PackageDescription
 
-var cxxSettings: [CXXSetting] = [
-    .unsafeFlags([
-        "-I",
-        #"C:\Users\ethan\AppData\Local\Programs\Swift\Toolchains\6.3.0+Asserts\usr\include"#
-    ])
+let bridgingHeaderFlags = [
+    "-I",
+    #"C:\Users\ethan\AppData\Local\Programs\Swift\Toolchains\6.3.0+Asserts\usr\include"#
 ]
 
 let package = Package(
@@ -14,14 +12,14 @@ let package = Package(
     targets: [
         .target(
             name: "Interop",
-            cxxSettings: cxxSettings
+            cxxSettings: [.unsafeFlags(bridgingHeaderFlags)]
         ),
         .executableTarget(
             name: "COMTest",
             dependencies: ["Interop"],
-            cxxSettings: cxxSettings,
             swiftSettings: [
                 .interoperabilityMode(.Cxx),
+                .unsafeFlags(bridgingHeaderFlags),
             ]
         ),
     ],
