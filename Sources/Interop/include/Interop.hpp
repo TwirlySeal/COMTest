@@ -103,6 +103,8 @@ SWIFT_NAME(coUninitialize());
 
 
 // COM APIs
+// Methods that need to be accessible from Swift are virtual and forward
+// declared because C++ interop does not support calling pure virtual methods
 struct __declspec(uuid("00000000-0000-0000-C000-000000000046"))
 __declspec(novtable) IUnknown
 {
@@ -114,6 +116,7 @@ __declspec(novtable) IUnknown
     virtual std::uint32_t __stdcall AddRef(void) = 0;
 
     virtual std::uint32_t __stdcall Release(void) = 0;
+
 } SWIFT_SHARED_REFERENCE(__COM_AddRef, __COM_Release);
 
 inline void __COM_AddRef(IUnknown* p) {
@@ -122,6 +125,20 @@ inline void __COM_AddRef(IUnknown* p) {
 
 inline void __COM_Release(IUnknown* p) {
     if (p) p->Release();
+}
+
+inline SWIFT_RETURNS_RETAINED IUnknown* __COM_QueryInterface(
+    IUnknown* pSource, 
+    const GUID& iid
+) {
+    if (!pSource) return nullptr;
+    void* pv = nullptr;
+    HRESULT hr = pSource->__QueryInterface(iid, &pv);
+    if (hr == S_OK) {
+        // QueryInterface already called AddRef (+1).
+        return reinterpret_cast<IUnknown*>(pv);
+    }
+    return nullptr;
 }
 
 void* __CreateTaskbarList(void);
