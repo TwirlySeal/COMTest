@@ -106,7 +106,7 @@ SWIFT_NAME(coUninitialize());
 struct __declspec(uuid("00000000-0000-0000-C000-000000000046"))
 __declspec(novtable) IUnknown
 {
-    virtual HRESULT __stdcall QueryInterface(
+    virtual HRESULT __stdcall __QueryInterface(
         const GUID& riid,
         void** ppvObject
     );
@@ -114,7 +114,15 @@ __declspec(novtable) IUnknown
     virtual std::uint32_t __stdcall AddRef(void) = 0;
 
     virtual std::uint32_t __stdcall Release(void) = 0;
-};
+} SWIFT_SHARED_REFERENCE(__COM_AddRef, __COM_Release);
+
+inline void __COM_AddRef(IUnknown* p) {
+    if (p) p->AddRef();
+}
+
+inline void __COM_Release(IUnknown* p) {
+    if (p) p->Release();
+}
 
 void* __CreateTaskbarList(void);
 
@@ -134,13 +142,4 @@ __declspec(novtable) TaskbarList : public IUnknown
     static SWIFT_RETURNS_RETAINED TaskbarList* create() SWIFT_NAME(init()) {
       return reinterpret_cast<TaskbarList*>(__CreateTaskbarList());
     };
-
-} SWIFT_SHARED_REFERENCE(__COM_AddRef, __COM_Release);
-
-inline void __COM_AddRef(TaskbarList* p) {
-    if (p) p->AddRef();
-}
-
-inline void __COM_Release(TaskbarList* p) {
-    if (p) p->Release();
-}
+};
