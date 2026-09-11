@@ -20,7 +20,7 @@ struct COMTest {
         // Process initial messages
         windowsMessageLoop(milliseconds: 1000)
         
-        guard let taskbar = TaskbarList.create() else {
+        guard let taskbar = TaskbarList() else {
             print("TaskbarList init failed")
             exit(1)
         }
@@ -41,10 +41,6 @@ struct COMError: Error {
 }
 
 extension TaskbarList {
-    static func create() -> Self? {
-        return CreateTaskbarList()
-    }
-
     func hrInit() throws(COMError) {
         let hr = __HrInit()
         guard hr == S_OK else {

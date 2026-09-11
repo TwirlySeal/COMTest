@@ -116,6 +116,8 @@ __declspec(novtable) IUnknown
     virtual std::uint32_t __stdcall Release(void) = 0;
 };
 
+void* __CreateTaskbarList(void);
+
 struct __declspec(uuid("56FDF342-FD6D-11d0-958A-006097C9A090"))
 __declspec(novtable) TaskbarList : public IUnknown
 {
@@ -129,6 +131,10 @@ __declspec(novtable) TaskbarList : public IUnknown
   
     virtual HRESULT __stdcall __SetActiveAlt(HWND hwnd);
 
+    static SWIFT_RETURNS_RETAINED TaskbarList* create() SWIFT_NAME(init()) {
+      return reinterpret_cast<TaskbarList*>(__CreateTaskbarList());
+    };
+
 } SWIFT_SHARED_REFERENCE(__COM_AddRef, __COM_Release);
 
 inline void __COM_AddRef(TaskbarList* p) {
@@ -137,10 +143,4 @@ inline void __COM_AddRef(TaskbarList* p) {
 
 inline void __COM_Release(TaskbarList* p) {
     if (p) p->Release();
-}
-
-void* __CreateTaskbarList(void);
-
-SWIFT_RETURNS_RETAINED TaskbarList* CreateTaskbarList(void) {
-  return reinterpret_cast<TaskbarList*>(__CreateTaskbarList());
 }
