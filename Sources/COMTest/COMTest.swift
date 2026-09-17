@@ -3,9 +3,10 @@ import Interop
 @main
 struct COMTest {
     static func main() throws {
-        coInitialize(nil)
-        defer { coUninitialize() }
+        try withCOMContext(run)
+    }
 
+    static func run() throws {
         let handle = createWindow(
             exStyle: [.APPWINDOW],
             style: [.OVERLAPPED, .VISIBLE],
@@ -42,6 +43,17 @@ struct COMTest {
 
 struct COMError: Error {
     let hresult: HRESULT
+}
+
+func withCOMContext(_ body: () throws -> Void) throws {
+    let hr = coInitialize(nil)
+    guard hr == S_OK else {
+        throw COMError(hresult: hr)
+    }
+
+    defer { coUninitialize() }
+
+    try body()
 }
 
 extension TaskbarList {
