@@ -70,9 +70,15 @@ inline HRESULT __COM_QueryInterface(
     return hr;
 }
 
-void* _Nullable __CreateTaskbarList(void);
+extern "C" HRESULT CoCreateInstance(
+  const GUID& rclsid,
+  IUnknown* _Nullable pUnkOuter,
+  DWORD dwClsContext,
+  const GUID& riid,
+  IUnknown* _Nullable * _Nonnull ppv
+) SWIFT_NAME(__CoCreateInstance(_:_:_:_:_:));
 
-struct __declspec(novtable) TaskbarList : public IUnknown {
+struct __declspec(novtable) ITaskbarList : public IUnknown {
     virtual HRESULT __stdcall __HrInit(void);
   
     virtual HRESULT __stdcall __AddTab(HWND _Nonnull hwnd);
@@ -82,8 +88,4 @@ struct __declspec(novtable) TaskbarList : public IUnknown {
     virtual HRESULT __stdcall __ActivateTab(HWND _Nonnull hwnd);
   
     virtual HRESULT __stdcall __SetActiveAlt(HWND _Nonnull hwnd);
-
-    static SWIFT_RETURNS_RETAINED TaskbarList* _Nullable create() SWIFT_NAME(init()) {
-      return reinterpret_cast<TaskbarList*>(__CreateTaskbarList());
-    };
 };
