@@ -100,25 +100,21 @@ protocol COMInterface {
 }
 
 extension IUnknown: COMInterface {
-    static var iid: GUID {
-        GUID(
-            Data1: 0x00000000,
-            Data2: 0x0000,
-            Data3: 0x0000,
-            Data4: (0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46)
-        )
-    }
+    static let iid = GUID(
+        Data1: 0x00000000,
+        Data2: 0x0000,
+        Data3: 0x0000,
+        Data4: (0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46)
+    )
 }
 
 extension TaskbarList: COMInterface {
-    static var iid: GUID {
-        GUID(
-            Data1: 0x56FDF342,
-            Data2: 0xFD6D,
-            Data3: 0x11D0,
-            Data4: (0x95, 0x8A, 0x00, 0x60, 0x97, 0xC9, 0xA0, 0x90)
-        )
-    }
+    static let iid = GUID(
+        Data1: 0x56FDF342,
+        Data2: 0xFD6D,
+        Data3: 0x11D0,
+        Data4: (0x95, 0x8A, 0x00, 0x60, 0x97, 0xC9, 0xA0, 0x90)
+    )
 }
 
 // Swift C++ interop currently does not preserve the inheritance relationship,

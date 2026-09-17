@@ -34,9 +34,7 @@ SWIFT_NAME(coUninitialize());
 // Methods that need to be accessible from Swift are virtual and forward
 // declared because C++ interop does not support calling pure virtual methods
 
-struct __declspec(uuid("00000000-0000-0000-C000-000000000046"))
-__declspec(novtable) IUnknown
-{
+struct __declspec(novtable) IUnknown {
     virtual HRESULT __stdcall __QueryInterface(
         const GUID& riid,
         void* _Nullable * _Nonnull ppvObject
@@ -48,11 +46,11 @@ __declspec(novtable) IUnknown
 
 } SWIFT_SHARED_REFERENCE(__COM_AddRef, __COM_Release);
 
-inline void __COM_AddRef(IUnknown* p) {
+inline void __COM_AddRef(IUnknown* _Nonnull p) {
     if (p) p->AddRef();
 }
 
-inline void __COM_Release(IUnknown* p) {
+inline void __COM_Release(IUnknown* _Nonnull p) {
     if (p) p->Release();
 }
 
@@ -74,9 +72,7 @@ inline HRESULT __COM_QueryInterface(
 
 void* _Nullable __CreateTaskbarList(void);
 
-struct __declspec(uuid("56FDF342-FD6D-11d0-958A-006097C9A090"))
-__declspec(novtable) TaskbarList : public IUnknown
-{
+struct __declspec(novtable) TaskbarList : public IUnknown {
     virtual HRESULT __stdcall __HrInit(void);
   
     virtual HRESULT __stdcall __AddTab(HWND _Nonnull hwnd);
