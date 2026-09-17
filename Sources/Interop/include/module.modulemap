@@ -1,5 +1,6 @@
 module Interop {
-	header "Interop.hpp"
+	header "C.hpp"
+	header "COM.hpp"
 
 	export *
 }

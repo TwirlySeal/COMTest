@@ -27,7 +27,7 @@ struct COMTest {
         }
         try taskbar.hrInit()
 
-        if let unknown = taskbar.queryInterface(IUnknown.self) {
+        if let unknown = try? taskbar.queryInterface(IUnknown.self) {
             print("TaskbarList conforms to \(unknown)")
         }
 
@@ -45,6 +45,7 @@ struct COMError: Error {
     let hresult: HRESULT
 }
 
+/// - Throws: `COMError` if COM initialization fails.
 func withCOMContext(_ body: () throws -> Void) throws {
     let hr = coInitialize(nil)
     guard hr == S_OK else {
@@ -94,6 +95,7 @@ extension TaskbarList {
 }
 
 protocol COMInterface {
+    /// Interface ID
     static var iid: GUID { get }
 }
 
@@ -120,13 +122,20 @@ extension TaskbarList: COMInterface {
 }
 
 // Swift C++ interop currently does not preserve the inheritance relationship,
-// so this is type-specific
-extension TaskbarList {
-    func queryInterface<T: COMInterface>(_ type: T.Type = T.self) -> T? {
+// so this is defined on the Swift protocol instead of IUnknown
+extension COMInterface {
+    func queryInterface<T: COMInterface>(_ type: T.Type = T.self) throws(COMError) -> T {
         let iid = T.iid
+
+        // Compiler warning 'unsafeBitCast' from 'Self' to 'IUnknown' can be
+        // replaced with 'unsafeDowncast' is incorrect
         let selfUnknown = unsafeBitCast(self, to: IUnknown.self)
-        guard let interfaceUnknown = __COM_QueryInterface(selfUnknown, iid) else {
-            return nil
+
+        var rawResult: IUnknown? = nil
+        let hr = __COM_QueryInterface(selfUnknown, iid, &rawResult)
+
+        guard hr == S_OK, let interfaceUnknown = rawResult else {
+            throw COMError(hresult: hr)
         }
 
         return unsafeBitCast(interfaceUnknown, to: T.self)
