@@ -70,7 +70,7 @@ extension COMInterface {
         let selfUnknown = unsafeBitCast(self, to: IUnknown.self)
 
         var rawResult: IUnknown? = nil
-        let hr = __COM_QueryInterface(selfUnknown, iid, &rawResult)
+        let hr = selfUnknown.__QueryInterface(iid, &rawResult)
 
         guard hr == S_OK, let interfaceUnknown = rawResult else {
             throw COMError(hresult: hr)

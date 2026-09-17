@@ -37,7 +37,7 @@ SWIFT_NAME(coUninitialize());
 struct __declspec(novtable) IUnknown {
     virtual HRESULT __stdcall __QueryInterface(
         const GUID& riid,
-        void* _Nullable * _Nonnull ppvObject
+        IUnknown* _Nullable * _Nonnull ppvObject
     );
 
     virtual std::uint32_t __stdcall AddRef(void) = 0;
@@ -52,22 +52,6 @@ inline void __COM_AddRef(IUnknown* _Nonnull p) {
 
 inline void __COM_Release(IUnknown* _Nonnull p) {
     if (p) p->Release();
-}
-
-inline HRESULT __COM_QueryInterface(
-    IUnknown* _Nonnull pSource,
-    const GUID& iid,
-    IUnknown* _Nullable * _Nonnull ppOut
-) {
-    *ppOut = nullptr;
-
-    void* pv = nullptr;
-    HRESULT hr = pSource->__QueryInterface(iid, &pv);
-    if (hr == S_OK) {
-        // QueryInterface already called AddRef (+1).
-        *ppOut = reinterpret_cast<IUnknown*>(pv);
-    }
-    return hr;
 }
 
 extern "C" HRESULT CoCreateInstance(
