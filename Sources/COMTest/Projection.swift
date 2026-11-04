@@ -27,8 +27,8 @@ extension COMInterface {
     func queryInterface<T: COMInterface>(_ type: T.Type = T.self) throws(COMError) -> T {
         let iid = T.iid
 
-        // Compiler warning 'unsafeBitCast' from 'Self' to 'IUnknown' can be
-        // replaced with 'unsafeDowncast' is incorrect
+        // Compiler warning stating 'unsafeBitCast' from 'Self' to 'IUnknown'
+        // can be replaced with 'unsafeDowncast' is incorrect
         let selfUnknown = unsafeBitCast(self, to: IUnknown.self)
 
         var rawResult: IUnknown? = nil
