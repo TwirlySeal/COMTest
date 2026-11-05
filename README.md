@@ -21,28 +21,28 @@ the Swift toolchain.
 > declare this file as an output of a script phase or custom build rule which
 > produces it?
 > 
-> error: Ld .\.build\out\Products\Debug-windows-x86_64\COMTest.exe normal failed
-> with a nonzero exit code.
+> error: `Ld .\.build\out\Products\Debug-windows-x86_64\COMTest.exe normal`
+> failed with a nonzero exit code.
 > 
 > error: Build failed
 
 Compiler invocation (wrapped for readability):
 
 ```
-    ~\AppData\Local\Programs\Swift\Toolchains\6.4.2+Asserts\usr\bin\swiftc.exe
-    -target x86_64-unknown-windows-msvc -emit-executable
-    -sdk ~\AppData\Local\Programs\Swift\Platforms\6.4.2\Windows.platform\Developer\SDKs\Windows.sdk
-    -L.\.build\out\Intermediates.noindex\EagerLinkingTBDs\Debug-windows-x86_64
-    -L.\.build\out\Products\Debug-windows-x86_64
-    -L~\AppData\Local\Programs\Swift\Platforms\6.4.2\Windows.platform\Developer\SDKs\Windows.sdk\usr\lib\swift\windows\x86_64
-    -L~\AppData\Local\Programs\Swift\Platforms\6.4.2\Windows.platform\Developer\Library\Testing-6.4.2\usr\lib\swift\windows
-    -L~\AppData\Local\Programs\Swift\Platforms\6.4.2\Windows.platform\Developer\Library\Testing-6.4.2\usr\lib\swift\windows\x86_64
-    -L~\AppData\Local\Programs\Swift\Platforms\6.4.2\Windows.platform\Developer\Library\XCTest-6.4.2\usr\lib\swift\windows\x86_64
-    -L~\AppData\Local\Programs\Swift\Platforms\6.4.2\Windows.platform\Developer\Library\XCTest-6.4.2\usr\lib\swift\windows
-    @.\.build\out\Intermediates.noindex\COMTest.build\Debug-windows-x86_64\COMTest-p.build\Objects-normal\x86_64\COMTest.LinkFileList
-    -Xlinker /OPT:REF
-    -L~\AppData\Local\Programs\Swift\Toolchains\6.4.2+Asserts\usr\lib\swift
-    -L/usr/lib/swift -use-ld=lld-link -Xlinker -debug:dwarf
-    @.\.build\out\Products\Debug-windows-x86_64\Interop.objlib\args.resp
-    -o .\.build\out\Products\Debug-windows-x86_64\COMTest.exe
+~\AppData\Local\Programs\Swift\Toolchains\6.4.2+Asserts\usr\bin\swiftc.exe
+-target x86_64-unknown-windows-msvc -emit-executable
+-sdk ~\AppData\Local\Programs\Swift\Platforms\6.4.2\Windows.platform\Developer\SDKs\Windows.sdk
+-L.\.build\out\Intermediates.noindex\EagerLinkingTBDs\Debug-windows-x86_64
+-L.\.build\out\Products\Debug-windows-x86_64
+-L~\AppData\Local\Programs\Swift\Platforms\6.4.2\Windows.platform\Developer\SDKs\Windows.sdk\usr\lib\swift\windows\x86_64
+-L~\AppData\Local\Programs\Swift\Platforms\6.4.2\Windows.platform\Developer\Library\Testing-6.4.2\usr\lib\swift\windows
+-L~\AppData\Local\Programs\Swift\Platforms\6.4.2\Windows.platform\Developer\Library\Testing-6.4.2\usr\lib\swift\windows\x86_64
+-L~\AppData\Local\Programs\Swift\Platforms\6.4.2\Windows.platform\Developer\Library\XCTest-6.4.2\usr\lib\swift\windows\x86_64
+-L~\AppData\Local\Programs\Swift\Platforms\6.4.2\Windows.platform\Developer\Library\XCTest-6.4.2\usr\lib\swift\windows
+@.\.build\out\Intermediates.noindex\COMTest.build\Debug-windows-x86_64\COMTest-p.build\Objects-normal\x86_64\COMTest.LinkFileList
+-Xlinker /OPT:REF
+-L~\AppData\Local\Programs\Swift\Toolchains\6.4.2+Asserts\usr\lib\swift
+-L/usr/lib/swift -use-ld=lld-link -Xlinker -debug:dwarf
+@.\.build\out\Products\Debug-windows-x86_64\Interop.objlib\args.resp
+-o .\.build\out\Products\Debug-windows-x86_64\COMTest.exe
 ```
