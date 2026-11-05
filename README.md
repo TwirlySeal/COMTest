@@ -1,8 +1,12 @@
 # COMTest
 
-This Swift program uses C++ interop to call the
+This Windows program demonstrates using Swift's C++ interop to call the
 [ITaskbarList](https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nn-shobjidl_core-itaskbarlist)
 COM interface to show and hide the taskbar icon for a window.
+
+The program is implemented in `COMTest.swift`, while the other files show the
+code that could be generated for a Swift Windows API projection, like
+[Windows Kit](https://github.com/TwirlySeal/windows-kit).
 
 ## Known issues
 
@@ -10,7 +14,7 @@ Because of
 [this issue](https://github.com/swiftlang/swift-package-manager/issues/9010),
 currently the paths for the `<swift/bridging>` header are hardcoded in
 `Package.swift` and `.clangd`. You will need to change them to work on your
-system.
+system and installed version of the Swift toolchain.
 
 Build works on Swift 6.3.3 but fails on Swift 6.4.0-6.4.2 with this error (after
 updating the header path for `<swift/bridging>`). This may be a regression in
