@@ -4,7 +4,7 @@ struct COMError: Error {
     let hresult: HRESULT
 }
 
-/// - Throws: `COMError` if COM initialization fails.
+/// - Throws: `COMError` if COM initialization fails, or any error thrown by `body`
 func withCOMContext(_ body: () throws -> Void) throws {
     let hr = coInitialize(nil)
     guard hr == S_OK else {
@@ -21,8 +21,10 @@ protocol COMInterface {
     static var iid: GUID { get }
 }
 
-// Swift C++ interop currently does not preserve the inheritance relationship,
-// so this is defined on the Swift protocol instead of IUnknown
+// This extension is defined on the Swift protocol instead of `IUnknown`
+// because Swift's C++ interop currently does not preserve C++ inheritance
+// relationships, so a derived class of `IUnknown` cannot substitute for
+// `IUnknown`.
 extension COMInterface {
     func queryInterface<T: COMInterface>(_ type: T.Type = T.self) throws(COMError) -> T {
         let iid = T.iid
